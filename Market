@@ -1,0 +1,76 @@
+import { Button } from "@/components/ui/button";
+
+export default function CardHavenHomepage() {
+  return (
+    <div className="min-h-screen bg-white px-6 py-10 text-gray-900">
+      <header className="flex justify-between items-center mb-10">
+        <div className="text-2xl font-bold flex items-center gap-2">
+          <div className="bg-blue-200 text-blue-800 px-2 py-1 rounded-xl">🃏</div>
+          CardHaven
+        </div>
+        <nav className="flex gap-4 text-sm font-medium">
+          <a href="#" className="hover:text-blue-600">Browse</a>
+          <a href="#" className="hover:text-blue-600">About</a>
+          <a href="#" className="hover:text-blue-600">Profile</a>
+        </nav>
+      </header>
+
+      <section className="text-center mb-16">
+        <h1 className="text-4xl font-bold mb-4">Buy, sell, and trade niche TCG cards</h1>
+        <p className="text-lg mb-6">Union Arena, Weiß-Schwarz & mehr – sicher handeln & sammeln</p>
+        <Button className="text-lg px-6 py-3">Get Started</Button>
+      </section>
+
+      <section className="mb-20">
+        <h2 className="text-2xl font-semibold mb-6">Featured Cards</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {[
+            { name: "Shoto Todoroki", game: "Union Arena", price: "$12.00" },
+            { name: "Hinata Hyuga", game: "Union Arena", price: "$9.50" },
+            { name: "Frieza", game: "Union Arena", price: "$15.00" },
+          ].map((card, i) => (
+            <div
+              key={i}
+              className="border p-4 rounded-xl shadow hover:shadow-md transition"
+            >
+              <div className="text-lg font-bold mb-1">{card.name}</div>
+              <div className="text-sm text-gray-600">{card.game}</div>
+              <div className="text-blue-600 font-semibold mt-2">{card.price}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-gray-50 p-10 rounded-xl">
+        <h2 className="text-2xl font-semibold mb-6 text-center">How It Works</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <div>
+            <div className="text-4xl mb-2">🔍</div>
+            <h3 className="font-semibold mb-1">Browse Listings</h3>
+            <p className="text-sm text-gray-600">
+              Search through hundreds of niche TCG card listings.
+            </p>
+          </div>
+          <div>
+            <div className="text-4xl mb-2">💱</div>
+            <h3 className="font-semibold mb-1">Buy, Sell, or Trade</h3>
+            <p className="text-sm text-gray-600">
+              Make purchases, list cards for sale, or send trade requests.
+            </p>
+          </div>
+          <div>
+            <div className="text-4xl mb-2">⭐</div>
+            <h3 className="font-semibold mb-1">Build Your Reputation</h3>
+            <p className="text-sm text-gray-600">
+              Get rated by other users and gain trust in the community.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer className="mt-20 text-center text-sm text-gray-500">
+        © 2025 CardHaven &bull; Terms of Service &bull; Privacy Policy &bull; Contact
+      </footer>
+    </div>
+  );
+}
