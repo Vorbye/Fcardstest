@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FantasiaTest</title>
   <style>
     * {
@@ -16,15 +17,16 @@
       padding: 0;
       min-height: 100vh;
       display: flex;
+      justify-content: center;
     }
 
     .main {
-      flex-grow: 1;
-      padding: 30px;
+      max-width: 1000px;
+      width: 100%;
+      padding: 30px 15px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 25px;
       text-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
@@ -33,6 +35,7 @@
       color: #dcd6ff;
       margin: 0;
       text-shadow: 0 0 10px #b8a9ff;
+      text-align: center;
     }
 
     h1 {
@@ -42,50 +45,17 @@
 
     h2 {
       font-size: 1.6em;
-      margin-top: 40px;
+      margin-top: 30px;
       font-weight: 600;
     }
 
     .button {
       background: linear-gradient(45deg, #7b5fff, #3a2eae);
       color: #e0e0ff;
-      padding: 20px 30px;
-      font-size: 1.1em;
+      padding: 16px 26px;
+      font-size: 1em;
       border: none;
       border-radius: 14px;
-      cursor: pointer;
-      transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      user-select: none;
-      box-shadow: 0 0 15px #5a4bffaa;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .button:hover {
-      background: linear-gradient(45deg, #5a3edd, #271d9e);
-      box-shadow: 0 0 25px #8c7fffdd;
-    }
-
-    .row {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .small-btn {
-      background: linear-gradient(45deg, #a97eff, #7151ca);
-      color: #e0e0ff;
-      padding: 10px 16px;
-      font-size: 0.9em;
-      border: none;
-      border-radius: 12px;
       cursor: pointer;
       transition: background 0.3s ease, box-shadow 0.3s ease;
       text-decoration: none;
@@ -94,65 +64,34 @@
       justify-content: center;
       font-weight: 600;
       user-select: none;
-      box-shadow: 0 0 8px #8c7fffaa;
+      box-shadow: 0 0 12px #5a4bffaa;
+      text-align: center;
       white-space: nowrap;
-      max-width: 220px;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    .small-btn:hover {
-      background: linear-gradient(45deg, #7a54ff, #3f27c1);
-      box-shadow: 0 0 18px #b69fffdd;
+    .button:hover {
+      background: linear-gradient(45deg, #5a3edd, #271d9e);
+      box-shadow: 0 0 20px #8c7fffdd;
     }
 
-    .small-btn span.icon {
-      margin-right: 6px;
-      font-weight: 700;
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
     }
 
     .twitch-live {
       background: linear-gradient(45deg, #9146ff, #6e34cc);
-      color: #fff;
+      box-shadow: 0 0 15px #9146ff, 0 0 25px #a56fff;
       animation: glow 2s infinite alternate ease-in-out;
-      box-shadow: 0 0 8px #9146ff, 0 0 20px #a56fff, 0 0 30px #9146ff;
-      cursor: pointer;
-    }
-
-    .twitch-offline {
-      background: linear-gradient(45deg, #444444, #222222);
-      color: #ccc;
-      box-shadow: none;
-      cursor: default;
     }
 
     @keyframes glow {
-      0% { box-shadow: 0 0 5px #9146ff, 0 0 15px #a56fff, 0 0 25px #9146ff; }
-      100% { box-shadow: 0 0 20px #9146ff, 0 0 40px #a56fff, 0 0 60px #9146ff; }
+      0% { box-shadow: 0 0 5px #9146ff, 0 0 15px #a56fff; }
+      100% { box-shadow: 0 0 20px #9146ff, 0 0 40px #a56fff; }
     }
 
-    .live-dot {
-      width: 18px;
-      height: 18px;
-      background: #ff0000;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #ff4444;
-      animation: pulse-dot 1.5s infinite ease-in-out;
-      user-select: none;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { box-shadow: 0 0 8px 2px #ff0000; }
-      50% { box-shadow: 0 0 15px 5px #ff4c4c; }
-    }
-
-    .twitch-container {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    /* Zauberhut Animation */
     .magic-hat {
       position: fixed;
       top: 20%;
@@ -160,7 +99,7 @@
       width: 80px;
       height: auto;
       z-index: 999;
-      animation: fly-across 10s linear infinite;
+      animation: fly-across 6s linear 1;
       pointer-events: none;
       opacity: 0.9;
     }
@@ -179,22 +118,19 @@
       }
     }
 
-    /* Iframe Vorschau */
     .iframe-preview {
       background: rgba(255, 255, 255, 0.05);
       padding: 15px;
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
       overflow: hidden;
+      width: 100%;
       max-width: 600px;
     }
 
     .iframe-wrapper {
-      width: 1000px;
-      height: 800px;
-      transform: scale(0.5);
-      transform-origin: top left;
-      pointer-events: none;
+      width: 100%;
+      aspect-ratio: 9 / 16;
       border: 3px solid #aaa;
       border-radius: 10px;
       overflow: hidden;
@@ -205,10 +141,18 @@
       height: 100%;
       border: none;
     }
+
+    @media (max-width: 600px) {
+      .button {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Zauberhut -->
+
   <img src="https://i.ibb.co/Hfz21m9D/hut-removebg-preview.png" class="magic-hat" />
 
   <div class="main">
@@ -217,36 +161,23 @@
     <div class="row">
       <a class="button" href="https://fantasiacards.de/" target="_blank">🛒 FantasiaCards Shop</a>
       <a class="button" href="https://www.tiktok.com/@fantasiacards/live" target="_blank">🃏 TikTok Live-Stream FantasiaCards</a>
-      <a class="small-btn" href="https://fantasiacards.de/collections/neu-eingetroffen/products/pokemon-ewige-rivalen-booster-de" target="_blank" title="Pokemon - Ewige Rivale [DE]">
-        <span class="icon">✨</span>Pokemon - Ewige Rivale [DE]
-      </a>
     </div>
 
     <div class="row">
       <a class="button" href="https://cascabreaks.de/" target="_blank">🛒 CascaBreaks Shop</a>
       <a class="button" href="https://www.tiktok.com/@cascabreaks/live" target="_blank">🔥 TikTok Live-Stream CascaBreaks</a>
-      <a class="small-btn" href="https://cascabreaks.de/products/one-piece-card-game-op11-a-fist-of-divine-speed-jp-live-boxbreak" target="_blank" title="One Piece OP11 - Boxbreak">
-        <span class="icon">✨</span>One Piece OP11
-      </a>
     </div>
 
     <div class="row">
-      <a class="button" href="https://fantasiasports.de/" target="_blank">🛒 FantasiaSports Shop</a>
-      <a class="button" href="https://www.tiktok.com/@fantasiasports/live" target="_blank">⚽ TikTok Live-Stream FantasiaSports</a>
-      <a class="small-btn" href="https://fantasiasports.de/collections/frontpage/products/topps-2024-25-chrome-uefa-club-competitions-hobby-box-einzelpack" target="_blank" title="Topps 2024-25 Chrome UEFA Club Competitions Hobby Box">
-        <span class="icon">✨</span>Topps Chrome UEFA 24/25
-      </a>
+      <a class="button" href="https://fantasiasports.de/" target="_blank">⚽ FantasiaSports Shop</a>
+      <a class="button" href="https://www.tiktok.com/@fantasiasports/live" target="_blank">🏀 TikTok Live-Stream FantasiaSports</a>
     </div>
 
     <h2>Discord</h2>
     <a class="button" href="https://discord.gg/fA2ymNYm" target="_blank">💬 FantasiaCards Discord</a>
 
     <h2>Twitch</h2>
-    <div class="twitch-container">
-      <a id="twitch-button" class="button twitch-offline" href="https://www.twitch.tv/fantasiacards" target="_blank">
-        🎮 FantasiaCards Twitch
-      </a>
-    </div>
+    <a class="button twitch-live" href="https://www.twitch.tv/fantasiacards" target="_blank">🎮 FantasiaCards Twitch (LIVE)</a>
 
     <h2>Live-Vorschau TikTok</h2>
     <div class="iframe-preview">
@@ -255,29 +186,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    async function checkTwitchLive() {
-      const clientId = 'kimne78kx3ncx6brgo4mv6wki5h1ko';
-      const channelName = 'fantasiacards';
-      const twitchButton = document.getElementById('twitch-button');
-
-      try {
-        const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${channelName}`, {
-          headers: { 'Client-ID': clientId }
-        });
-        const data = await response.json();
-
-        if (data.data && data.data.length > 0) {
-          twitchButton.classList.remove('twitch-offline');
-          twitchButton.classList.add('twitch-live');
-        }
-      } catch (error) {
-        console.error("Fehler beim Abrufen des Twitch-Status:", error);
-      }
-    }
-
-    checkTwitchLive();
-  </script>
 </body>
 </html>
+
