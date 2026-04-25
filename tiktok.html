@@ -8,7 +8,7 @@
   body {
     margin: 0;
     font-family: "Segoe UI", Arial;
-    background: #1e1e2f; /* EINHEITLICHER Hintergrund */
+    background: #1e1e2f;
     color: white;
   }
 
@@ -105,6 +105,32 @@
     white-space: pre-line;
     font-size: 14px;
   }
+
+  /* 🔥 LINK BUTTONS */
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 50px 0;
+    flex-wrap: wrap;
+  }
+
+  .link-btn {
+    padding: 14px 26px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    background: linear-gradient(135deg, #ff7a18, #ffb347);
+    box-shadow: 0 0 15px rgba(255,122,24,0.6);
+    transition: 0.25s;
+  }
+
+  .link-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,122,24,1);
+  }
 </style>
 </head>
 
@@ -135,6 +161,16 @@
     <div class="output" id="output2"></div>
   </div>
 
+</div>
+
+<!-- 🔗 Fantasia Links -->
+<div class="links">
+  <a href="https://fantasiacards.de" target="_blank" class="link-btn">
+    🃏 FantasiaCards
+  </a>
+  <a href="https://fantasiasports.de" target="_blank" class="link-btn">
+    ⚽ FantasiaSports
+  </a>
 </div>
 
 <script>
