@@ -1,169 +1,169 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FantasiaTest</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<title>Shuffle Tool</title>
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #3b2f8c, #6a4bcf);
-      color: #e0e0ff;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Arial;
+    background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+    color: white;
+  }
 
-    .main {
-      max-width: 1000px;
-      width: 100%;
-      padding: 30px 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      text-shadow: 0 0 5px rgba(0,0,0,0.5);
-      z-index: 1;
-    }
+  h1 {
+    text-align: center;
+    margin: 30px 0;
+  }
 
-    h1, h2 {
-      color: #dcd6ff;
-      margin: 0;
-      text-shadow: 0 0 10px #b8a9ff;
-      text-align: center;
-    }
+  .top-btn {
+    display: block;
+    margin: 0 auto 30px auto;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 12px;
+    background: #6c63ff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
 
-    h1 {
-      font-size: 2.4em;
-      font-weight: 700;
-    }
+  .top-btn:hover {
+    background: #5a52e0;
+    transform: scale(1.05);
+  }
 
-    h2 {
-      font-size: 1.6em;
-      margin-top: 30px;
-      font-weight: 600;
-    }
+  .container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
 
-    .button {
-      background: linear-gradient(45deg, #7b5fff, #3a2eae);
-      color: #e0e0ff;
-      padding: 16px 26px;
-      font-size: 1em;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      user-select: none;
-      box-shadow: 0 0 12px #5a4bffaa;
-      text-align: center;
-      white-space: nowrap;
-    }
+  .card {
+    background: #2f2f4a;
+    padding: 20px;
+    border-radius: 16px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
 
-    .button:hover {
-      background: linear-gradient(45deg, #5a3edd, #271d9e);
-      box-shadow: 0 0 20px #8c7fffdd;
-    }
+  h3 {
+    margin-top: 0;
+  }
 
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
+  textarea {
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    resize: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
 
-    .twitch-live {
-      background: linear-gradient(45deg, #9146ff, #6e34cc);
-      box-shadow: 0 0 15px #9146ff, 0 0 25px #a56fff;
-      animation: glow 2s infinite alternate ease-in-out;
-    }
+  .btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 10px;
+    background: #4cafef;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
 
-    @keyframes glow {
-      0% { box-shadow: 0 0 5px #9146ff, 0 0 15px #a56fff; }
-      100% { box-shadow: 0 0 20px #9146ff, 0 0 40px #a56fff; }
-    }
+  .btn:hover {
+    background: #3a9bdc;
+    transform: scale(1.03);
+  }
 
-    .magic-hat {
-      position: fixed;
-      width: 80px;
-      height: auto;
-      z-index: 999;
-      pointer-events: none;
-      top: 0;
-      left: 0;
-      transform: translate(0px, 0px) rotate(0deg);
-      transition: transform 5s ease-in-out;
-    }
+  .copy {
+    background: #00c896;
+  }
 
-    @media (max-width: 600px) {
-      .button {
-        width: 100%;
-        justify-content: center;
-        text-align: center;
-      }
-    }
-  </style>
+  .copy:hover {
+    background: #00a87d;
+  }
+
+  .output {
+    margin-top: 15px;
+    background: #1e1e2f;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 120px;
+    white-space: pre-line;
+    font-size: 14px;
+  }
+</style>
 </head>
+
 <body>
 
-  <img src="https://i.ibb.co/Hfz21m9D/hut-removebg-preview.png" class="magic-hat" id="magicHat" />
+<h1>🎲 Doppel Shuffler</h1>
 
-  <div class="main">
-    <h1>Fantasia Universum</h1>
+<button class="top-btn" onclick="generateBoth()">Beide Listen mischen</button>
 
-    <div class="row">
-      <a class="button" href="https://fantasiacards.de/" target="_blank">🛒 FantasiaCards Shop</a>
-      <a class="button" href="https://www.tiktok.com/@fantasiacards/live" target="_blank">🃏 TikTok Live-Stream FantasiaCards</a>
-    </div>
+<div class="container">
 
-    <div class="row">
-      <a class="button" href="https://cascabreaks.de/" target="_blank">🛒 CascaBreaks Shop</a>
-      <a class="button" href="https://www.tiktok.com/@cascabreaks/live" target="_blank">🔥 TikTok Live-Stream CascaBreaks</a>
-    </div>
-
-    <div class="row">
-      <a class="button" href="https://fantasiasports.de/" target="_blank">⚽ FantasiaSports Shop</a>
-      <a class="button" href="https://www.tiktok.com/@fantasiasports/live" target="_blank">🏀 TikTok Live-Stream FantasiaSports</a>
-    </div>
-
-    <h2>Discord</h2>
-    <a class="button" href="https://discord.gg/fA2ymNYm" target="_blank">💬 FantasiaCards Discord</a>
-
-    <h2>Twitch</h2>
-    <a class="button twitch-live" href="https://www.twitch.tv/fantasiacards" target="_blank">🎮 FantasiaCards Twitch (LIVE)</a>
+  <div class="card">
+    <h3>Liste 1</h3>
+    <textarea id="input1" placeholder="Namen eingeben..."></textarea>
+    <button class="btn" onclick="generate('1')">Mischen</button>
+    <button class="btn copy" onclick="copyText('output1')">Kopieren</button>
+    <div class="output" id="output1"></div>
   </div>
 
-  <script>
-    const hat = document.getElementById('magicHat');
+  <div class="card">
+    <h3>Liste 2</h3>
+    <textarea id="input2" placeholder="Namen eingeben..."></textarea>
+    <button class="btn" onclick="generate('2')">Mischen</button>
+    <button class="btn copy" onclick="copyText('output2')">Kopieren</button>
+    <div class="output" id="output2"></div>
+  </div>
 
-    function randomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+</div>
 
-    function moveHat() {
-      const vw = window.innerWidth - 100; // Hutgröße einrechnen
-      const vh = window.innerHeight - 100;
+<script>
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
-      const x = randomInt(0, vw);
-      const y = randomInt(0, vh);
-      const r = randomInt(0, 360);
+function generate(id) {
+  let input = document.getElementById("input" + id).value.trim();
+  let names = input.split("\n").filter(n => n.trim() !== "");
 
-      hat.style.transform = `translate(${x}px, ${y}px) rotate(${r}deg)`;
-    }
+  let shuffled = shuffle(names);
 
-    // Initiale Bewegung und dann regelmäßig weiterbewegen
-    moveHat();
-    setInterval(moveHat, 6000);
-  </script>
+  let result = shuffled.map((name, i) => {
+    return (i + 1) + ". " + name;
+  }).join("\n");
+
+  document.getElementById("output" + id).textContent = result;
+}
+
+function generateBoth() {
+  generate("1");
+  generate("2");
+}
+
+function copyText(id) {
+  let text = document.getElementById(id).textContent;
+  if (!text) return alert("Nichts zum Kopieren!");
+
+  navigator.clipboard.writeText(text);
+  alert("Kopiert!");
+}
+</script>
+
 </body>
 </html>
