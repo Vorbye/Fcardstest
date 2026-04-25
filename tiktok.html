@@ -2,210 +2,147 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Fantasia Randomiser</title>
+<title>Fantasia Randomiser PRO</title>
 
 <style>
-  body {
-    margin: 0;
-    font-family: "Segoe UI", Arial;
-    background: #1e1e2f;
-    color: white;
-  }
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial;
+  background: #1e1e2f;
+  color: white;
+}
 
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    padding: 25px;
-    font-size: 28px;
-    font-weight: bold;
-  }
+header {
+  text-align: center;
+  padding: 25px;
+  font-size: 28px;
+  font-weight: bold;
+}
 
-  .hat {
-    font-size: 32px;
-  }
+.top-btn {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: none;
+  background: #6c63ff;
+  color: white;
+  cursor: pointer;
+}
 
-  .top-btn {
-    display: block;
-    margin: 0 auto 30px auto;
-    padding: 15px 25px;
-    border: none;
-    border-radius: 12px;
-    background: #6c63ff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
 
-  .top-btn:hover {
-    background: #5a52e0;
-    transform: scale(1.05);
-  }
+.card {
+  background: #2f2f4a;
+  padding: 20px;
+  border-radius: 16px;
+  width: 300px;
+}
 
-  .container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px;
-    flex-wrap: wrap;
-  }
+textarea {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  padding: 10px;
+}
 
-  .card {
-    background: #2f2f4a;
-    padding: 20px;
-    border-radius: 16px;
-    width: 300px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  }
+.output {
+  margin-top: 15px;
+  background: #1a1a2a;
+  padding: 10px;
+  border-radius: 10px;
+  min-height: 120px;
+  white-space: pre-line;
+}
 
-  textarea {
-    width: 100%;
-    height: 180px;
-    border-radius: 10px;
-    border: none;
-    padding: 10px;
-    resize: none;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 10px;
-    background: #4cafef;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  .btn:hover {
-    background: #3a9bdc;
-    transform: scale(1.03);
-  }
-
-  .copy {
-    background: #00c896;
-  }
-
-  .copy:hover {
-    background: #00a87d;
-  }
-
-  .output {
-    margin-top: 15px;
-    background: #1a1a2a;
-    padding: 10px;
-    border-radius: 10px;
-    min-height: 120px;
-    white-space: pre-line;
-    font-size: 14px;
-  }
-
-  /* 🔥 LINK BUTTONS */
-  .links {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin: 50px 0;
-    flex-wrap: wrap;
-  }
-
-  .link-btn {
-    padding: 14px 26px;
-    border-radius: 14px;
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    background: linear-gradient(135deg, #ff7a18, #ffb347);
-    box-shadow: 0 0 15px rgba(255,122,24,0.6);
-    transition: 0.25s;
-  }
-
-  .link-btn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 25px rgba(255,122,24,1);
-  }
+.seed {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 10px;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-  <span class="hat">🧙‍♂️🎩</span>
-  Fantasia Randomiser
-</header>
+<header>🧙‍♂️🎩 Fantasia Randomiser PRO</header>
 
 <button class="top-btn" onclick="generateBoth()">🎲 Beide Listen mischen</button>
 
 <div class="container">
-
   <div class="card">
-    <h3>Liste 1</h3>
-    <textarea id="input1" placeholder="Namen eingeben..."></textarea>
-    <button class="btn" onclick="generate('1')">Mischen</button>
-    <button class="btn copy" onclick="copyText('output1')">Kopieren</button>
+    <textarea id="input1"></textarea>
     <div class="output" id="output1"></div>
+    <div class="seed" id="seed1"></div>
   </div>
 
   <div class="card">
-    <h3>Liste 2</h3>
-    <textarea id="input2" placeholder="Namen eingeben..."></textarea>
-    <button class="btn" onclick="generate('2')">Mischen</button>
-    <button class="btn copy" onclick="copyText('output2')">Kopieren</button>
+    <textarea id="input2"></textarea>
     <div class="output" id="output2"></div>
+    <div class="seed" id="seed2"></div>
   </div>
-
-</div>
-
-<!-- 🔗 Fantasia Links -->
-<div class="links">
-  <a href="https://fantasiacards.de" target="_blank" class="link-btn">
-    🃏 FantasiaCards
-  </a>
-  <a href="https://fantasiasports.de" target="_blank" class="link-btn">
-    ⚽ FantasiaSports
-  </a>
 </div>
 
 <script>
+// 🔐 Kryptografischer Zufall
+function secureRandom() {
+  const array = new Uint32Array(1);
+  crypto.getRandomValues(array);
+  return array[0] / 2**32;
+}
+
+// 🔀 Shuffle mit sicherem Zufall
 function shuffle(arr) {
+  let seed = [];
+  
   for (let i = arr.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
+    let r = secureRandom();
+    let j = Math.floor(r * (i + 1));
+
+    seed.push(r.toFixed(8)); // speichert Zufallswerte
+
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return arr;
+
+  return { arr, seed };
+}
+
+// 🎲 Animation
+function animateOutput(element, finalText) {
+  let dots = 0;
+  let interval = setInterval(() => {
+    element.textContent = "Mischen" + ".".repeat(dots);
+    dots = (dots + 1) % 4;
+  }, 100);
+
+  setTimeout(() => {
+    clearInterval(interval);
+    element.textContent = finalText;
+  }, 800);
 }
 
 function generate(id) {
   let input = document.getElementById("input" + id).value.trim();
-  let names = input.split("\n").filter(n => n.trim() !== "");
+  let names = input.split("\n").filter(n => n);
 
-  let shuffled = shuffle(names);
+  let result = shuffle(names);
 
-  let result = shuffled.map((name, i) => {
-    return (i + 1) + ". " + name;
-  }).join("\n");
+  let outputText = result.arr.map((n, i) => `${i+1}. ${n}`).join("\n");
 
-  document.getElementById("output" + id).textContent = result;
+  animateOutput(document.getElementById("output" + id), outputText);
+
+  document.getElementById("seed" + id).textContent =
+    "Seed: " + result.seed.join(" | ");
 }
 
 function generateBoth() {
   generate("1");
   generate("2");
-}
-
-function copyText(id) {
-  let text = document.getElementById(id).textContent;
-  if (!text) return alert("Nichts zum Kopieren!");
-
-  navigator.clipboard.writeText(text);
-  alert("Kopiert!");
 }
 </script>
 
