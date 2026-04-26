@@ -134,6 +134,7 @@ textarea {
   margin-top: 0;
 }
 </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -157,6 +158,8 @@ textarea {
     <textarea id="input1"></textarea>
     <button class="btn" onclick="generate('1')">Mischen</button>
     <button class="btn copy" onclick="copyText('output1')">Kopieren</button>
+    <button class="btn" onclick="exportImage('output1')">📸 Export Discord</button>
+    <button class="btn" onclick="exportImage('output1')">📸 Export Discord</button>
     <button class="btn delete" onclick="clearAll('1')">🗑️ Löschen</button>
 
     <div class="output" id="output1"></div>
@@ -256,6 +259,25 @@ function copyText(id) {
   if (!text) return alert("Nichts zum Kopieren!");
   navigator.clipboard.writeText(text);
   alert("Kopiert!");
+}
+
+  function exportImage(outputId) {
+  let element = document.getElementById(outputId);
+
+  if (!element.textContent.trim()) {
+    alert("Nichts zum Exportieren!");
+    return;
+  }
+
+  html2canvas(element, {
+    backgroundColor: "#1e1e2f",
+    scale: 2
+  }).then(canvas => {
+    let link = document.createElement("a");
+    link.download = "fantasia-randomiser.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
 }
 </script>
 
