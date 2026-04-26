@@ -188,45 +188,50 @@ textarea {
 </div>
 
 <script>
-function secureRandom() {
-  const array = new Uint32Array(1);
-  crypto.getRandomValues(array);
-  return array[0] / 2**32;
+async function getRandomNumbers(count) {
+  const response = await fetch("https://api.random.org/json-rpc/4/invoke", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "generateIntegers",
+      params: {
+        apiKey: "DEIN_API_KEY_HIER",
+        n: count,
+        min: 0,
+        max: 1000000,
+        replacement: true
+      },
+      id: 42
+    })
+  });
+
+  const data = await response.json();
+  return data.result.random.data;
 }
 
-function shuffle(arr) {
-  let seed = [];
+async function shuffleWithRandomOrg(arr) {
+  let numbers = await getRandomNumbers(arr.length);
+
   for (let i = arr.length - 1; i > 0; i--) {
-    let r = secureRandom();
-    let j = Math.floor(r * (i + 1));
-    seed.push(r.toFixed(8));
+    let j = numbers[i] % (i + 1);
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return { arr, seed };
+
+  return arr;
 }
 
-function generate(id) {
+async function generate(id) {
   let input = document.getElementById("input" + id).value.trim();
   let names = input.split("\n").filter(n => n);
 
-  let result = shuffle(names);
-  let output = result.arr.map((n,i)=>`${i+1}. ${n}`).join("\n");
+  let shuffled = await shuffleWithRandomOrg(names);
+
+  let output = shuffled.map((n,i)=>`${i+1}. ${n}`).join("\n");
 
   document.getElementById("output"+id).textContent = output;
-  document.getElementById("seed"+id).textContent =
-    "Seed: " + result.seed.join(" | ");
-}
-
-function generateBoth() {
-  generate("1");
-  generate("2");
-}
-
-function copyText(id) {
-  let text = document.getElementById(id).textContent;
-  if (!text) return alert("Nichts zum Kopieren!");
-  navigator.clipboard.writeText(text);
-  alert("Kopiert!");
 }
 </script>
 
