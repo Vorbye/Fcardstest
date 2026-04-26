@@ -134,7 +134,6 @@ textarea {
   margin-top: 0;
 }
 </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -158,7 +157,6 @@ textarea {
     <textarea id="input1"></textarea>
     <button class="btn" onclick="generate('1')">Mischen</button>
     <button class="btn copy" onclick="copyText('output1')">Kopieren</button>
-    <button class="btn" onclick="exportImage('output1')">📸 Export Discord</button>
     <button class="btn delete" onclick="clearAll('1')">🗑️ Löschen</button>
 
     <div class="output" id="output1"></div>
@@ -172,7 +170,6 @@ textarea {
     <textarea id="input2"></textarea>
     <button class="btn" onclick="generate('2')">Mischen</button>
     <button class="btn copy" onclick="copyText('output2')">Kopieren</button>
-    <button class="btn" onclick="exportImage('output2')">📸 Export Discord</button>
     <button class="btn delete" onclick="clearAll('2')">🗑️ Löschen</button>
 
     <div class="output" id="output2"></div>
@@ -192,10 +189,6 @@ textarea {
     Die Listen werden mit dem sogenannten <b>Fisher-Yates Shuffle</b> gemischt.
     Dabei wird jedes Element mit einem zufälligen anderen Element vertauscht —
     so entsteht eine gleichmäßige und faire Verteilung.
-  </p>
-  <p>
-    Die angezeigten <b>Seed-Werte</b> sind die verwendeten Zufallszahlen.
-    Damit lässt sich jede Ziehung nachvollziehen und ist transparent.
   </p>
 </div>
 
@@ -260,73 +253,7 @@ function copyText(id) {
   navigator.clipboard.writeText(text);
   alert("Kopiert!");
 }
-
-function exportImage(outputId) {
-  let output = document.getElementById(outputId).textContent;
-
-  if (!output.trim()) {
-    alert("Nichts zum Exportieren!");
-    return;
-  }
-
-  let list = output.split("\n");
-
-  // 🏆 Platz 1 highlight
-  let formatted = list.map((line, i) => {
-    if (i === 0) {
-      return `<div style="color:#ffd700; font-weight:bold; font-size:32px;">🏆 ${line}</div>`;
-    }
-    return `<div>${line}</div>`;
-  }).join("");
-
-  document.getElementById("exportList").innerHTML = formatted;
-
-  html2canvas(document.getElementById("exportTemplate"), {
-    scale: 2
-  }).then(canvas => {
-    let link = document.createElement("a");
-    link.download = "fantasia-discord.png";
-    link.href = canvas.toDataURL();
-    link.click();
-  });
-}
 </script>
 
-  <div id="exportTemplate" style="
-  position:absolute;
-  left:-9999px;
-  width:1080px;
-  height:1080px;
-  background: radial-gradient(circle at top, #2b2b45, #1e1e2f);
-  color:white;
-  padding:60px;
-  font-family:Segoe UI;
-">
-
-  <div style="text-align:center; font-size:42px; font-weight:bold; margin-bottom:40px;">
-    🎩 Fantasia Randomiser
-  </div>
-
-  <div id="exportList" style="
-    background: rgba(255,255,255,0.05);
-    border-radius:20px;
-    padding:30px;
-    font-size:26px;
-    line-height:1.8;
-  "></div>
-
-  <div style="
-    position:absolute;
-    bottom:40px;
-    left:0;
-    right:0;
-    text-align:center;
-    font-size:14px;
-    opacity:0.6;
-  ">
-    Generiert mit Fantasia Randomiser
-  </div>
-
-</div>
 </body>
 </html>
