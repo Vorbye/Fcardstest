@@ -37,7 +37,6 @@ header {
   color: white;
   font-weight: bold;
   background: linear-gradient(135deg, #ff7a18, #ffb347);
-  box-shadow: 0 0 12px rgba(255,122,24,0.6);
 }
 
 .wrapper {
@@ -99,14 +98,31 @@ textarea {
   white-space: pre-line;
 }
 
-.seed, .count {
+.count {
   font-size: 12px;
   margin-top: 8px;
   opacity: 0.7;
 }
 
-/* 🍀 POPUP */
-  <div id="overlay" class="popup-overlay"></div>
+/* 🔥 OVERLAY */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 9998;
+}
+
+.popup-overlay.show {
+  opacity: 1;
+}
+
+/* 🍀 POPUP CENTER */
 .popup {
   position: fixed;
   top: 50%;
@@ -125,32 +141,14 @@ textarea {
   z-index: 9999;
 }
 
-.popup img {
-  width: 60px;
-  height: 60px;
-}
-
 .popup.show {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* 🔥 optional dunkler Hintergrund */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.3s;
-  z-index: 9998;
-}
-
-.popup-overlay.show {
-  opacity: 1;
+.popup img {
+  width: 60px;
+  height: 60px;
 }
 </style>
 </head>
@@ -177,7 +175,6 @@ textarea {
 <button class="btn copy" onclick="copyText('output1')">Kopieren</button>
 <button class="btn delete" onclick="clearAll('1')">🗑️ Löschen</button>
 <div class="output" id="output1"></div>
-<div class="seed" id="seed1"></div>
 <div class="count" id="count1">Gemischt: 0x</div>
 </div>
 
@@ -188,30 +185,18 @@ textarea {
 <button class="btn copy" onclick="copyText('output2')">Kopieren</button>
 <button class="btn delete" onclick="clearAll('2')">🗑️ Löschen</button>
 <div class="output" id="output2"></div>
-<div class="seed" id="seed2"></div>
 <div class="count" id="count2">Gemischt: 0x</div>
 </div>
 
 </div>
-<div class="info">
-  <h3>🎲 Wie funktioniert der Zufall?</h3>
-  <p>
-    Diese Website verwendet die <b>RANDOM.ORG API</b> zur Erzeugung von Zufallszahlen.
-  </p>
-  <p>
-   Im Gegensatz zu klassischen Pseudozufalls-Generatoren basiert <b>RANDOM.ORG</b> auf physikalischem atmosphärischem Rauschen.
-    Dadurch entstehen echte Zufallswerte, die nicht vorhersagbar oder algorithmisch reproduzierbar sind.
-  </p>
-  <p>
-    Die angezeigten <b>Seed-Werte</b> sind die verwendeten Zufallszahlen.
-    Damit lässt sich jede Ziehung nachvollziehen und ist transparent.
-  </p>
 </div>
-</div>
+
+<!-- 🔥 OVERLAY -->
+<div id="overlay" class="popup-overlay"></div>
 
 <!-- 🍀 POPUP -->
 <div id="popup" class="popup">
-  <img src="https://i.imgur.com/nYTf77x.png">
+  <img src="https://imgup.com/DEIN-BILD.png">
   <div>
     <strong>Kopiert!</strong><br>
     Viel Glück an alle Teilnehmer!
@@ -220,31 +205,10 @@ textarea {
 
 <script>
 let shuffleCount={1:0,2:0};
-const API_KEY="72e761eb-e5bd-4fdf-b4a5-89fbe02bbcc8";
-
-async function getRandomNumbers(count){
-  try{
-    const res=await fetch("https://api.random.org/json-rpc/4/invoke",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        jsonrpc:"2.0",
-        method:"generateIntegers",
-        params:{apiKey:API_KEY,n:count,min:0,max:1000000},
-        id:Date.now()
-      })
-    });
-    const data=await res.json();
-    return data.result.random.data;
-  }catch{return null;}
-}
 
 async function shuffle(arr){
-  let numbers=await getRandomNumbers(arr.length);
-  if(!numbers) numbers=arr.map(()=>Math.floor(Math.random()*1000000));
-
   for(let i=arr.length-1;i>0;i--){
-    let j=numbers[i]%(i+1);
+    let j=Math.floor(Math.random()*(i+1));
     [arr[i],arr[j]]=[arr[j],arr[i]];
   }
   return arr;
@@ -263,7 +227,10 @@ async function generate(id){
   document.getElementById("count"+id).textContent="Gemischt: "+shuffleCount[id]+"x";
 }
 
-function generateBoth(){generate("1");generate("2");}
+function generateBoth(){
+  generate("1");
+  generate("2");
+}
 
 function clearAll(id){
   document.getElementById("input"+id).value="";
@@ -275,21 +242,22 @@ function clearAll(id){
 function copyText(id){
   let text=document.getElementById(id).textContent;
   if(!text) return;
+
   navigator.clipboard.writeText(text);
   showPopup();
 }
 
 function showPopup(){
-  let popup = document.getElementById("popup");
-  let overlay = document.getElementById("overlay");
+  let popup=document.getElementById("popup");
+  let overlay=document.getElementById("overlay");
 
   popup.classList.add("show");
   overlay.classList.add("show");
 
-  setTimeout(() => {
+  setTimeout(()=>{
     popup.classList.remove("show");
     overlay.classList.remove("show");
-  }, 2500);
+  },2500);
 }
 </script>
 
