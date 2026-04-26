@@ -129,10 +129,6 @@ textarea {
   line-height: 1.5;
   font-size: 14px;
 }
-
-.info h3 {
-  margin-top: 0;
-}
 </style>
 </head>
 
@@ -151,7 +147,6 @@ textarea {
 
 <div class="container">
 
-  <!-- LISTE 1 -->
   <div class="card">
     <h3>Liste 1</h3>
     <textarea id="input1"></textarea>
@@ -164,7 +159,6 @@ textarea {
     <div class="count" id="count1">Gemischt: 0x</div>
   </div>
 
-  <!-- LISTE 2 -->
   <div class="card">
     <h3>Liste 2</h3>
     <textarea id="input2"></textarea>
@@ -182,74 +176,102 @@ textarea {
 <div class="info">
   <h3>🎲 Wie funktioniert der Zufall?</h3>
   <p>
-    Diese Seite nutzt einen <b>kryptografisch sicheren Zufallsmechanismus</b> über die
-    Browser-Funktion <code>crypto.getRandomValues()</code>.
-  </p>
-  <p>
-    Die Listen werden mit dem sogenannten <b>Fisher-Yates Shuffle</b> gemischt.
-    Dabei wird jedes Element mit einem zufälligen anderen Element vertauscht —
-    so entsteht eine gleichmäßige und faire Verteilung.
+    Diese Ziehung nutzt externe Zufallszahlen über <b>random.org</b> und wird anschließend
+    mit dem Fisher-Yates Shuffle gemischt, wodurch jede Reihenfolge gleich wahrscheinlich ist.
   </p>
 </div>
 
 </div>
 
 <script>
-let shuffleCount = {
-  1: 0,
-  2: 0
-};
+let shuffleCount = {1:0, 2:0};
 
-function secureRandom() {
-  const array = new Uint32Array(1);
-  crypto.getRandomValues(array);
-  return array[0] / 2**32;
-}
+const API_KEY = "72e761eb-e5bd-4fdf-b4a5-89fbe02bbcc8";
 
-function shuffle(arr) {
-  let seed = [];
-  for (let i = arr.length - 1; i > 0; i--) {
-    let r = secureRandom();
-    let j = Math.floor(r * (i + 1));
-    seed.push(r.toFixed(8));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+async function getRandomNumbers(count) {
+  try {
+    const response = await fetch("https://api.random.org/json-rpc/4/invoke", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        jsonrpc:"2.0",
+        method:"generateIntegers",
+        params:{
+          apiKey: API_KEY,
+          n: count,
+          min: 0,
+          max: 1000000,
+          replacement:true
+        },
+        id: Date.now()
+      })
+    });
+
+    const data = await response.json();
+    if (data.error) throw new Error();
+    return data.result.random.data;
+
+  } catch {
+    return null;
   }
-  return { arr, seed };
 }
 
-function generate(id) {
-  let input = document.getElementById("input" + id).value.trim();
-  let names = input.split("\n").filter(n => n);
+async function shuffle(arr) {
+  let seed = [];
+  let numbers = await getRandomNumbers(arr.length);
 
-  let result = shuffle(names);
+  if (!numbers) {
+    for (let i = arr.length-1; i>0; i--) {
+      let r = Math.random();
+      let j = Math.floor(r*(i+1));
+      seed.push(r.toFixed(8));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return {arr, seed};
+  }
+
+  for (let i = arr.length-1; i>0; i--) {
+    let j = numbers[i] % (i+1);
+    seed.push(numbers[i]);
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+
+  return {arr, seed};
+}
+
+async function generate(id) {
+  let input = document.getElementById("input"+id).value.trim();
+  let names = input.split("\n").filter(n=>n);
+
+  let result = await shuffle(names);
+
   let output = result.arr.map((n,i)=>`${i+1}. ${n}`).join("\n");
 
   document.getElementById("output"+id).textContent = output;
   document.getElementById("seed"+id).textContent =
-    "Seed: " + result.seed.join(" | ");
+    "Seed/API: " + result.seed.join(" | ");
 
   shuffleCount[id]++;
   document.getElementById("count"+id).textContent =
     "Gemischt: " + shuffleCount[id] + "x";
 }
 
-function generateBoth() {
+function generateBoth(){
   generate("1");
   generate("2");
 }
 
-function clearAll(id) {
-  document.getElementById("input"+id).value = "";
-  document.getElementById("output"+id).textContent = "";
-  document.getElementById("seed"+id).textContent = "";
-
-  shuffleCount[id] = 0;
-  document.getElementById("count"+id).textContent = "Gemischt: 0x";
+function clearAll(id){
+  document.getElementById("input"+id).value="";
+  document.getElementById("output"+id).textContent="";
+  document.getElementById("seed"+id).textContent="";
+  shuffleCount[id]=0;
+  document.getElementById("count"+id).textContent="Gemischt: 0x";
 }
 
-function copyText(id) {
-  let text = document.getElementById(id).textContent;
-  if (!text) return alert("Nichts zum Kopieren!");
+function copyText(id){
+  let text=document.getElementById(id).textContent;
+  if(!text) return alert("Nichts zum Kopieren!");
   navigator.clipboard.writeText(text);
   alert("Kopiert!");
 }
